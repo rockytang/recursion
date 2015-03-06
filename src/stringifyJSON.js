@@ -31,37 +31,32 @@ var stringifyJSON = function(obj) {
 	  	str = str + "]";
 
   	} else {
-
   		str = "[" + stringifyJSON(obj[0]) + "]"
   	}
   } else {
   	
   	if(typeof obj === "object"){
 
-
 			if(Object.keys(obj).length) {
-				
 	  		str = str + "{";
 
 	  		for(var prop in obj){
-	  			
-	  			str = str + '"' + prop + '"' + ":" + stringifyJSON(obj[prop]) + ",";
+	  			if(prop === "undefined" || prop === "functions") {str = str}
+	  				else {	  			
+	  					str = str + '"' + prop + '"' + ":" + stringifyJSON(obj[prop]) + ",";
+	  				}
 	  		}
 
-	  		str = str.slice(0, str.length - 1);
+	  		if(str.length > 1) {str = str.slice(0, str.length - 1) }
+	  			
 	  		str = str + "}";
 
 	  	} else {
 	  		str = "{" + "}";
 	  	}
-		  
   	}
   }
 
   return str;
   
 };
-
-function spliceStr(str, index, count, add) {
-  return str.slice(0, index) + (add || "") + str.slice(index + count);
-}
